@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <stdio.h>n
+#include <stdio.h>
 #include <ctype.h>
 
 #define YELLOW "\033[33m"
@@ -22,7 +22,7 @@ static int search_word(void);
 static int del_word(void);
 static char getch(void);
 static void clear_screen(void);
-static void wait(void);
+static void press_enter_to_continue(void);
 static void cleanup(void);
 
 int main(void) {
@@ -137,7 +137,7 @@ static int add_word(void) {
 
     if (already_exists) {
         printf(N "Word already exists in dictionary!" N);
-        wait();
+        press_enter_to_continue();
         return 0;
     }
 
@@ -165,7 +165,7 @@ static int add_word(void) {
         printf(N "- Minimum 2 characters");
     }
 
-    wait();
+    press_enter_to_continue();
     return 0;
 }
 
@@ -189,7 +189,7 @@ static void show_words() {
         }
     }
 
-    wait();
+    press_enter_to_continue();
 }
 
 static void sort_words(void) {
@@ -222,7 +222,7 @@ static int search_word(void) {
         line[strcspn(line, "\n")] = '\0';
 
         if (strlen(line) == 0) {
-            wait();
+            press_enter_to_continue();
             return 0;
         }
 
@@ -241,7 +241,7 @@ static int search_word(void) {
         if (!found) { printf(N "Word not found in dictionary."); }
     }
 
-    wait();
+    press_enter_to_continue();
     return 0;
 }
 
@@ -259,7 +259,7 @@ static int del_word(void) {
         line[strcspn(line, "\n")] = '\0';
 
         if (strlen(line) == 0) {
-            wait();
+            press_enter_to_continue();
             return 0;
         }
 
@@ -312,7 +312,7 @@ static int del_word(void) {
         }
     }
 
-    wait();
+    press_enter_to_continue();
     return 0;
 }
 
@@ -333,7 +333,7 @@ static void clear_screen(void) {
     fflush(stdout);
 }
 
-static void wait(void) {
+static void press_enter_to_continue(void) {
     getch();
 }
 
