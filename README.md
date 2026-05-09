@@ -1,4 +1,4 @@
-![Demo]("assets/Demo.png")
+![Demo](assets/Demo.png)
 > the program
 
 # 📖 English Dictionary Console Program
