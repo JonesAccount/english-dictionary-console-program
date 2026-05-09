@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <stdio.h>
+#include <stdio.h>n
 #include <ctype.h>
 
 #define YELLOW "\033[33m"
