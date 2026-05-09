@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#define DICTIONARY_FILE "dictionary.txt"
 #define YELLOW "\033[33m"
 #define RED "\033[31m"
 #define BOLD "\033[1m"
@@ -14,6 +15,8 @@
 char **dictionary = NULL;
 int dictionary_size = 0;
 
+static int init_dictionary(void);
+static int save_dictionary(void);
 static void interface(void);
 static int add_word(void);
 static void show_words(void);
@@ -29,8 +32,8 @@ int main(void) {
     printf("\033[?25l");
 
     char ch;
-
     while (1) {
+    	init_dictionary();
         sort_words();
         interface();
         ch = getch();
@@ -61,8 +64,73 @@ int main(void) {
         }
 
         clear_screen();
+        save_dictionary();
     }
 
+    return 0;
+}
+
+static int init_dictionary(void) {
+    // If already initialized, clean up first
+    if (dictionary != NULL) {
+        cleanup();
+    }
+
+    dictionary = NULL;
+    dictionary_size = 0;
+
+    // Example: Load from file
+    FILE *file = fopen(DICTIONARY_FILE, "r");
+    if (file == NULL) {
+        // No file yet, start with empty dictionary
+        return 0;
+    }
+
+    char line[100];
+    while (fgets(line, sizeof(line), file) != NULL) {
+        line[strcspn(line, "\n")] = '\0';
+
+        if (strlen(line) > 0) {
+            char **tmp = realloc(dictionary, (dictionary_size + 1) * sizeof(char *));
+            if (tmp == NULL) {
+                fclose(file);
+                cleanup();
+                return -1;
+            }
+            dictionary = tmp;
+
+            dictionary[dictionary_size] = malloc(strlen(line) + 1);
+            if (dictionary[dictionary_size] == NULL) {
+                fclose(file);
+                cleanup();
+                return -1;
+            }
+
+            strcpy(dictionary[dictionary_size], line);
+            dictionary_size++;
+        }
+    }
+
+    fclose(file);
+    sort_words();
+    return 0;
+}
+
+static int save_dictionary(void) {
+    FILE *file = fopen(DICTIONARY_FILE, "w");
+    if (file == NULL) {
+        printf(N "Error: Could not save dictionary!" N);
+        return -1;
+    }
+
+    // Sort before saving to keep file organized
+    sort_words();
+
+    for (int i = 0; i < dictionary_size; i++) {
+        fprintf(file, "%s\n", dictionary[i]);
+    }
+
+    fclose(file);
     return 0;
 }
 
