@@ -1,5 +1,5 @@
 ![Demo]("assets/Demo.png")
-> screenshot
+> the program
 
 # 📖 English Dictionary Console Program
 
