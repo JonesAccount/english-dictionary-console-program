@@ -1,7 +1,7 @@
-![Demo]("assets/Demo.png")
-> screenshot
+![Demo](assets/Demo.png)
+> the program
 
-# English Dictionary Console Program
+# 📖 English Dictionary Console Program
 
 This is a simple console-based English dictionary application written in C. The program allows users to manage a collection of words using a text-based menu interface.
 
